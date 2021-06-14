@@ -71,6 +71,7 @@ const Map = () => {
     iconSize: [25, 25]
   })
 
+  
   console.log(currentLocation)
 
   return (
