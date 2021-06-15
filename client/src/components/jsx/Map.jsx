@@ -75,7 +75,7 @@ const Map = () => {
         />
         {currentLocation.length ? <Marker position={currentLocation[currentLocation.length-1]} icon={icon}>
         </Marker> : null}
-        <Polyline positions={polyline}/>
+        <Polyline positions={currentLocation}/>
       </MapContainer>
      </div>
   )
