@@ -29,20 +29,21 @@ const Map = () => {
 
       //this was for the watchPosition function      
   
-      const options = {
+      let options = {
         enableHighAccuracy: false,
         timeout: 5000,
         maximumAge: 0,
         distanceFilter: 1
       }
   
-     const getCurrentPosition = navigator.geolocation.getCurrentPosition(success, error)
+     const getCurrentPosition = navigator.geolocation.getCurrentPosition(success, error, options)
      const watchPosition = navigator.geolocation.watchPosition(success, error, options)
   
      setInterval(() => {
-        // getCurrentPosition()
-        watchPosition()
-     }, 500)
+       options.distanceFilter = 10
+        getCurrentPosition()
+        // watchPosition()
+     }, 1000)
     }
   }
   
