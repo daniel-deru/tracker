@@ -4,61 +4,56 @@ import { useState, useEffect} from "react";
 
 //Leaflet Imports
 import "leaflet/dist/leaflet.css"
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet"
+import { MapContainer, Marker, Popup, TileLayer, Polyline } from "react-leaflet"
 import { Icon } from "leaflet"
+
+//use a promise to auto zoom on user location
 
 
 const Map = () => {
-  const [currentLocation, setCurrentLocation] = useState([0, 0])
-  const [test, setTest] = useState(null)
 
+  //states 
+  const [currentLocation, setCurrentLocation] = useState([[0, 0]])
+
+  const polyline = [
+    [51.505, -0.09],
+    [51.51, -0.1],
+    [51.51, -0.12],
+  ]
+
+
+  //lifecycle
   useEffect(() => {
     getLocation()
-    
   }, [])
 
-  setInterval(() => {
-    getLocation()
-    let i = 0
-    setTest(i + i)
-    
-  }, 1000)
 
+  
+  // this is the gelocation method to get the location from the browser
   const getLocation = () => {
     if(navigator.geolocation){
   
       const success = (pos) => {
-        // console.log(pos.coords)
-        setCurrentLocation([pos.coords.latitude, pos.coords.longitude])
-        console.log(currentLocation)
+        const lat = pos.coords.latitude
+        const lon = pos.coords.longitude
+        setCurrentLocation(prevLocation => ([...prevLocation, [lat, lon]]))
+
       }
   
-      const error = (err) => {
-        console.log(err)
-      }
-
-      //this was for the watchPosition function      
+      const error = (err) => console.error(err)
+     
   
       let options = {
         enableHighAccuracy: false,
-        timeout: 5000,
+        timeout: 1000,
         maximumAge: 0,
         distanceFilter: 1
       }
   
-      const getCurrentPosition = navigator.geolocation.getCurrentPosition(success, error, options)
-      const watchPosition = navigator.geolocation.watchPosition(success, error, options)
-      
-    //  setInterval(() => {
-    //    options.distanceFilter = 10
-    //     // getCurrentPosition()
-    //     // watchPosition()
-    //  }, 1000)
-
-    //  while(true){
-    //   options.distanceFilter = 10
-    //   getCurrentPosition()
-    //  }
+      setInterval(() => {
+        // const watchPosition = navigator.geolocation.watchPosition(success, error, options)
+        const getCurrentPosition = navigator.geolocation.getCurrentPosition(success, error, options)
+      }, 1000);
     }
   }
   
@@ -68,19 +63,19 @@ const Map = () => {
     iconSize: [25, 25]
   })
 
-  console.log(test)
   // console.log(currentLocation)
 
   return (
     <div id="map" className="map-container">
+      hello
       <MapContainer style={{height: "80vh"}} zoom={4} center={[-27, 26]}>
           <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={currentLocation} icon={icon}>
-
-        </Marker>
+        {currentLocation.length ? <Marker position={currentLocation[currentLocation.length-1]} icon={icon}>
+        </Marker> : null}
+        <Polyline positions={polyline}/>
       </MapContainer>
      </div>
   )
