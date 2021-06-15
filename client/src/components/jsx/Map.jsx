@@ -8,28 +8,6 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet"
 import { Icon } from "leaflet"
 
 
-
-// class Map extends Component {
-
-//   state = {
-
-//   }
-
-//   render () {
-//     return (
-//       <div id="map" className="map-container">
-//       <MapContainer style={{height: "80vh"}} zoom={2} center={[20, 100]}>
-//           <TileLayer
-//             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-//             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-//           />
-//       </MapContainer>
-//       </div>
-//     )
-//   }
- 
-// }
-
 const Map = () => {
   const [currentLocation, setCurrentLocation] = useState([0, 0])
 
@@ -39,10 +17,6 @@ const Map = () => {
 
   const getLocation = () => {
     if(navigator.geolocation){
-      // navigator.geolocation.getCurrentPosition(pos => {
-      //   // console.log(pos.coords.latitude, pos.coords.longitude)
-      //   setCurrentLocation([pos.coords.latitude, pos.coords.longitude])
-      // })
   
       const success = (pos) => {
         // console.log(pos.coords)
@@ -52,16 +26,23 @@ const Map = () => {
       const error = (err) => {
         console.log(err)
       }
+
+      //this was for the watchPosition function      
   
       const options = {
-        enableHighAccuracy: true,
-        timeout: 1000,
-        maximumAge: 0
+        enableHighAccuracy: false,
+        timeout: 5000,
+        maximumAge: 0,
+        distanceFilter: 1
       }
   
-     const location = navigator.geolocation.watchPosition(success, error)
+     const getCurrentPosition = navigator.geolocation.getCurrentPosition(success, error)
+     const watchPosition = navigator.geolocation.watchPosition(success, error, options)
   
-     setInterval(location, 1000)
+     setInterval(() => {
+        // getCurrentPosition()
+        watchPosition()
+     }, 500)
     }
   }
   
