@@ -10,10 +10,19 @@ import { Icon } from "leaflet"
 
 const Map = () => {
   const [currentLocation, setCurrentLocation] = useState([0, 0])
+  const [test, setTest] = useState(null)
 
   useEffect(() => {
     getLocation()
+    
   }, [])
+
+  setInterval(() => {
+    getLocation()
+    let i = 0
+    setTest(i + i)
+    
+  }, 1000)
 
   const getLocation = () => {
     if(navigator.geolocation){
@@ -21,6 +30,7 @@ const Map = () => {
       const success = (pos) => {
         // console.log(pos.coords)
         setCurrentLocation([pos.coords.latitude, pos.coords.longitude])
+        console.log(currentLocation)
       }
   
       const error = (err) => {
@@ -36,14 +46,19 @@ const Map = () => {
         distanceFilter: 1
       }
   
-     const getCurrentPosition = navigator.geolocation.getCurrentPosition(success, error, options)
-     const watchPosition = navigator.geolocation.watchPosition(success, error, options)
-  
-     setInterval(() => {
-       options.distanceFilter = 10
-        getCurrentPosition()
-        // watchPosition()
-     }, 1000)
+      const getCurrentPosition = navigator.geolocation.getCurrentPosition(success, error, options)
+      const watchPosition = navigator.geolocation.watchPosition(success, error, options)
+      
+    //  setInterval(() => {
+    //    options.distanceFilter = 10
+    //     // getCurrentPosition()
+    //     // watchPosition()
+    //  }, 1000)
+
+    //  while(true){
+    //   options.distanceFilter = 10
+    //   getCurrentPosition()
+    //  }
     }
   }
   
@@ -53,8 +68,8 @@ const Map = () => {
     iconSize: [25, 25]
   })
 
-  
-  console.log(currentLocation)
+  console.log(test)
+  // console.log(currentLocation)
 
   return (
     <div id="map" className="map-container">
