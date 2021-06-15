@@ -63,7 +63,7 @@ const Map = () => {
     iconSize: [25, 25]
   })
 
-  console.log(currentLocation)
+  // console.log(currentLocation)
 
   return (
     <div id="map" className="map-container">
