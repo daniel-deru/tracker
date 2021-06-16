@@ -27,7 +27,6 @@ const Map = () => {
     getLocation()
   }, [])
 
-
   
   // this is the gelocation method to get the location from the browser
   const getLocation = () => {
@@ -52,7 +51,7 @@ const Map = () => {
   
       setInterval(() => {
         // const watchPosition = navigator.geolocation.watchPosition(success, error, options)
-        const getCurrentPosition = navigator.geolocation.getCurrentPosition(success, error, options)
+        navigator.geolocation.getCurrentPosition(success, error)
       }, 1000);
     }
   }
@@ -63,19 +62,22 @@ const Map = () => {
     iconSize: [25, 25]
   })
 
-  console.log(currentLocation)
+  console.log(currentLocation.length-1, currentLocation[currentLocation.length-1])
 
   return (
     <div id="map" className="map-container">
       hello
       <MapContainer style={{height: "80vh"}} zoom={4} center={[-27, 26]}>
+
           <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {currentLocation.length ? <Marker position={currentLocation[currentLocation.length-1]} icon={icon}>
-        </Marker> : null}
+
+        <Marker position={currentLocation[currentLocation.length-1]} icon={icon}></Marker>
+
         <Polyline positions={currentLocation}/>
+
       </MapContainer>
      </div>
   )
