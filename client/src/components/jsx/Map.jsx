@@ -49,10 +49,12 @@ const Map = () => {
         distanceFilter: 1
       }
   
-      setInterval(() => {
-        // const watchPosition = navigator.geolocation.watchPosition(success, error, options)
-        navigator.geolocation.getCurrentPosition(success, error)
-      }, 1000);
+
+        navigator.geolocation.watchPosition(success, error, options)
+      // setInterval(() => {
+      //   // const watchPosition = navigator.geolocation.watchPosition(success, error, options)
+      //   navigator.geolocation.getCurrentPosition(success, error)
+      // }, 1000);
     }
   }
   
@@ -63,11 +65,9 @@ const Map = () => {
   })
 
   console.log(currentLocation.length-1, currentLocation[currentLocation.length-1])
-  console.log("hello")
 
   return (
     <div id="map" className="map-container">
-      hello
       <MapContainer style={{height: "80vh"}} zoom={4} center={[-27, 26]}>
 
           <TileLayer
@@ -80,6 +80,11 @@ const Map = () => {
         <Polyline positions={currentLocation}/>
 
       </MapContainer>
+      {currentLocation.map(location => {
+        return <div>
+            location: {location[0]} longitude: {location[1]}
+        </div>
+      })}
      </div>
   )
 }
