@@ -63,6 +63,7 @@ const Map = () => {
   })
 
   console.log(currentLocation.length-1, currentLocation[currentLocation.length-1])
+  console.log("hello")
 
   return (
     <div id="map" className="map-container">
@@ -82,5 +83,6 @@ const Map = () => {
      </div>
   )
 }
+
 
 export default Map
